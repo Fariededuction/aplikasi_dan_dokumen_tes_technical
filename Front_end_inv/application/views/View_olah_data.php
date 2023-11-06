@@ -408,7 +408,7 @@
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="<?php echo base_url('assets/api.js')?>"></script>
     
-<div id="addProductFormContainer" class="modal fade">
+    <div id="addProductFormContainer" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -417,42 +417,37 @@
                 </button>
             </div>
             <div class="modal-body form">
-                <form id="addProductForm" >
-                <div class="form-body">
-                        <div class="form-group">
-                    <label for="nama_barang">Nama Barang:</label>
-                    <input type="text" id="nama_barang" name="nama_barang" id="nama_barang" required>
-                    <div class="invalid-feedback">Please, enter your name!</div>
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label for="nama_barang">Nama Barang:</label>
+                        <input type="text" id="nama_barang" name="nama_barang" required>
+                        <div class="invalid-feedback"></div>
                     </div>
+
+                    <div class="form-group" style="margin-top: 10px;"> <!-- Add margin-top here -->
+                        <label for="jumlah_barang">Jumlah Barang:</label>
+                        <input type="number" id="jumlah_barang" name="jumlah_barang" required>
+                        <div class="invalid-feedback"></div>
                     </div>
+
+                    <div class="form-group" style="margin-top: 10px;"> <!-- Add margin-top here -->
+                        <label for="jenis_barang">Jenis Barang:</label>
+                        <input type="text" id="jenis_barang" name="jenis_barang" required>
                     </div>
-                    <div class="form-body">
-                        <div class="form-group">
-                    <label for="jumlah_barang">Jumlah Barang:</label>
-                    <input type="number" id="jumlah_barang" name="jumlah_barang" required>
+
+                    <div class="form-group" style="margin-top: 10px;"> <!-- Add margin-top here -->
+                        <label for "harga_barang">Harga Barang:</label>
+                        <input type="number" id="harga_barang" name="harga_barang" required>
                     </div>
-                    </div>
-                    <div class="form-body">
-                        <div class="form-group">
-                    <label for="jenis_barang">Jenis Barang:</label>
-                    <input type="text" id="jenis_barang" name="jenis_barang" required>
-                    </div>
-                    <div class="form-body">
-                        <div class="form-group">
-                    <label for="harga_barang">Harga Barang:</label>
-                    <input type="number" id="harga_barang" name="harga_barang" required>
-                    </div>
-                    <div class="form-body">
-                        <div class="form-group">
-                    <button type="button" id="addProductButton">Add Product</button>
-                    </div>
+
+                    <div class="form-group">
+                        <button type="button" id="addProductButton">Add Product</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 </body>
 
