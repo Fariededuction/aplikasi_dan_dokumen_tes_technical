@@ -32,11 +32,11 @@ class Login extends CI_Controller {
                 if($x['status_pengolahan']=='1'){
                     $this->session->set_userdata('logged',TRUE);
                     $this->session->set_userdata('username',$username);
-                    $id=$x['id_user'];
+                    $id=$x['id_pengguna'];
                     if($x['role_id']=='1'){ //Administrator
                         $name = $x['username'];
                         $this->session->set_userdata('access','Administrator');
-                        $this->session->set_userdata('id_user',$id);
+                        $this->session->set_userdata('id_pengguna',$id);
                         $this->session->set_userdata('name',$name);
                         redirect('Dashboard');
 

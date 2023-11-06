@@ -283,7 +283,7 @@
              
 
               <!-- Table with stripped rows -->
-              <button onclick="addProduct()">Add Product</button>
+              <button id="showAddProductModal" onclick="toggleAddProductForm()">Add Product</button>
               <table id="tabel-data" class="table table-striped" style="width:100%">
         <thead>
             <tr>
@@ -406,155 +406,53 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-
-
-    <script>
-        let productsData = []; 
-        let productToEdit; // Declare productToEdit here
-
-        fetch('http://localhost/Api_crud_back_end_inv/Olah_data/readProducts')
-            .then(res => res.json())
-            .then(data => {
-                productsData = data;
-                displayProducts(data);
-            });
-
-      async function displayProducts(products) {
-            let html = '';
-            products.forEach((product, index) => {
-                html += '<tr>';
-                html += `<td>${product.id_barang}</td>
-                          <td>${product.nama_barang}</td>
-                            <td>${product.jumlah_barang}</td>
-                            <td>${product.jenis_barang}</td>
-                            <td>Rp${product.harga_barang}</td>
-                            <td>
-                                <button onclick="editProduct(${index})">Edit</button>
-                                <button onclick="deleteProduct(${product.id_barang})">Delete</button>
-                            </td>`;
-                html += '</tr>';
-            });
-            document.querySelector('tbody').innerHTML = html;
-            $('#tabel-data').DataTable();
-        }
-
-        document.addEventListener('click', function (event) {
-        if (event.target.classList.contains('delete-button')) {
-            const index = Array.from(event.target.parentElement.parentElement.parentElement.children).indexOf(event.target.parentElement.parentElement);
-            deleteProduct(index);
-        }
-    });
-
-        function addProduct() {
-   
-    const newProduct = {
-        nama_barang: prompt('nama barang'),
-        jumlah_barang: prompt('jumlah barang'),
-        jenis_barang: prompt('jenis barang'),
-        harga_barang: prompt('harga')
-    };
-
+    <script src="<?php echo base_url('assets/api.js')?>"></script>
     
-    fetch('http://localhost/Api_crud_back_end_inv/Olah_data/createProduct', {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newProduct)
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Failed to create the product');
-        }
-    })
-    .then(createdProduct => {
-        
-        console.log('Product created:', createdProduct);
+<div id="addProductFormContainer" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body form">
+                <form id="addProductForm" >
+                <div class="form-body">
+                        <div class="form-group">
+                    <label for="nama_barang">Nama Barang:</label>
+                    <input type="text" id="nama_barang" name="nama_barang" id="nama_barang" required>
+                    <div class="invalid-feedback">Please, enter your name!</div>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                    <label for="jumlah_barang">Jumlah Barang:</label>
+                    <input type="number" id="jumlah_barang" name="jumlah_barang" required>
+                    </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                    <label for="jenis_barang">Jenis Barang:</label>
+                    <input type="text" id="jenis_barang" name="jenis_barang" required>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                    <label for="harga_barang">Harga Barang:</label>
+                    <input type="number" id="harga_barang" name="harga_barang" required>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                    <button type="button" id="addProductButton">Add Product</button>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-  
-        productsData.push(createdProduct);
-
-        
-        displayProducts(productsData);
-
-      
-        location.reload();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-
-        }
-
-       function editProduct(index) {
-    productToEdit = productsData[index]; // Assign productToEdit here
-
-    if (!productToEdit) {
-        console.error('Product not found');
-        return;
-    }
-
-    const updatedProduct = {
-        id_barang: prompt('id barang:', productToEdit.id_barang),
-        nama_barang: prompt('Edit nama barang:', productToEdit.nama_barang),
-        jumlah_barang: prompt('Edit jumlah barang:', productToEdit.jumlah_barang),
-        jenis_barang: prompt('Edit jenis barang:', productToEdit.jenis_barang),
-        harga_barang: prompt('Edit harga:', productToEdit.harga_barang)
-    };
-
-    fetch(`http://localhost/Api_crud_back_end_inv/Olah_data/updateProduct/${productToEdit.id_barang}`, {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedProduct)
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Failed to update the product');
-        }
-    })
-    .then(updatedProduct => {
-        console.log('Product updated:', updatedProduct);
-        productsData[index] = updatedProduct;
-        displayProducts(productsData);
-        location.reload();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-    function deleteProduct(id) {
-    const confirmation = confirm('Are you sure you want to delete this product?');
-    if (confirmation) {
-        
-        fetch(`http://localhost/Api_crud_back_end_inv/Olah_data/deleteProduct/${id}`, {
-            method: "DELETE"
-        })
-        .then(response => {
-            if (response.ok) {
-                // Remove the product from the client-side data array
-                productsData = productsData.filter(product => product.id_barang !== id);
-                // Refresh the table to display the updated data
-                displayProducts(productsData);
-                location.reload();
-            } else {
-                throw new Error('Failed to delete the product');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-}
-
-        
-    </script>
 
 </body>
 

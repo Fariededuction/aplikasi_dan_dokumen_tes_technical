@@ -101,8 +101,8 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
-                      <input type="submit" value="Register">
+                      <!-- <button class="btn btn-primary w-100" type="submit">Create Account</button> -->
+                      <input class="btn btn-primary w-100" type="submit" value="Register">
 <?= form_close(); ?>
                     </div>
                     <div class="col-12">
